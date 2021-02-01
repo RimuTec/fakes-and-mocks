@@ -12,15 +12,18 @@ namespace FakesAndMocks.Tests
       [Test]
       public void AverageTemperature()
       {
+         DateTime date = new(2021, 01, 15);
+         // Older C# syntax: DateTime date = new DateTime(2021, 01, 15);
          var observations = new List<Observation>{
-             new Observation { Date = new DateTime(2021,01,15), Temperature = 17.0 },
-             new Observation { Date = new DateTime(2021,01,15), Temperature = 19.0 }
+             new Observation { Date = date, Temperature = 17.0 },
+             new Observation { Date = date, Temperature = 19.0 }
             };
          var mock = new Mock<IObservationRepository>();
-         mock.Setup(repo => repo.GetByDate(It.IsAny<DateTime>())).Returns(observations);
+         mock.Setup(repo => repo.GetByDate(date)).Returns(observations);
          var observationRepository = mock.Object;
          var service = new WeatherService(observationRepository);
-         Assert.AreEqual(18.0, service.AverageTemperature(new DateTime(2021, 01, 15)));
+         Assert.AreEqual(18.0, service.AverageTemperature(date));
+         mock.Verify(repo => repo.GetByDate(date), Times.Once);
       }
    }
 }

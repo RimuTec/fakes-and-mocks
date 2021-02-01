@@ -1,6 +1,7 @@
 FROM mcr.microsoft.com/dotnet/sdk:5.0.102
 
 RUN apt-get update && \
+    apt-get upgrade -y && \
     apt-get install -y procps
 
 # Create non-root user
